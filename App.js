@@ -14,13 +14,11 @@ const ITEMS = [
   {value: 4, triggered: false},
   {value: 5, triggered: false},
   {value: 6, triggered: false},
-  {value: 7, triggered: false},
-  {value: 8, triggered: false},
 ];
 function getRandomColor() {
   var letters = '01234ABCDEF56789';
   var color = '#';
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
