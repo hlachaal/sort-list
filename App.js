@@ -1,10 +1,9 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, PanResponder, Animated} from 'react-native';
 import styled from 'styled-components';
-// need to know the y position where the list starts at
+// Need to specify the y position where the list starts at.
 const POSITION = 0;
-// need to specify the height of a single item in the list
+// Need to specify the height of one single item in the list.
 const ROW_HEIGHT = 80;
 const ITEMS = [
   {value: 0, triggered: false},
@@ -69,27 +68,20 @@ export default class App extends React.Component {
         const items = this.state.items;
         items.map(item => (item.triggered = false));
         const draggingDist = this.state.draggingDist;
+        let newIdx = null;
         if (draggingDist > ROW_HEIGHT || draggingDist < -ROW_HEIGHT) {
-          if (draggingDist > 0) {
-            const newIdx =
-              Number((draggingDist / ROW_HEIGHT).toString().split('.')[0]) +
-              Number(this.state.gestIdx);
-            const newItems = [];
-            items.map(item => newItems.push(item));
-            newItems.splice(this.state.gestIdx, 1);
-            newItems.splice(newIdx, 0, items[this.state.gestIdx]);
-            this.setState({items: newItems});
-          }
-          if (draggingDist < 0) {
-            const newIdx =
-              Number(this.state.gestIdx) -
-              Number((-draggingDist / ROW_HEIGHT).toString().split('.')[0]);
-            const newItems = [];
-            items.map(item => newItems.push(item));
-            newItems.splice(this.state.gestIdx, 1);
-            newItems.splice(newIdx, 0, items[this.state.gestIdx]);
-            this.setState({items: newItems});
-          }
+          draggingDist > 0
+            ? (newIdx =
+                Number((draggingDist / ROW_HEIGHT).toString().split('.')[0]) +
+                Number(this.state.gestIdx))
+            : (newIdx =
+                Number(this.state.gestIdx) -
+                Number((-draggingDist / ROW_HEIGHT).toString().split('.')[0]));
+          const newItems = [];
+          items.map(item => newItems.push(item));
+          newItems.splice(this.state.gestIdx, 1);
+          newItems.splice(newIdx, 0, items[this.state.gestIdx]);
+          this.setState({items: newItems});
         }
         this.setState({
           listener: false,
@@ -108,10 +100,10 @@ export default class App extends React.Component {
           isListener={isListener}
           triggered={item.triggered}
           color={colorMap[item.value]}>
+          <ItemText>{item.value}</ItemText>
           <TouchResponder {...this._panResponder.panHandlers}>
             <Icon>#</Icon>
           </TouchResponder>
-          <ItemText>{item.value}</ItemText>
         </Item>
       );
     };
