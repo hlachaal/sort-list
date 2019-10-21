@@ -69,21 +69,19 @@ export default class App extends React.Component {
         items.map(item => (item.triggered = false));
         const draggingDist = this.state.draggingDist;
         let newIdx = null;
-        if (draggingDist > ROW_HEIGHT || draggingDist < -ROW_HEIGHT) {
-          draggingDist > 0
-            ? (newIdx =
-                Number((draggingDist / ROW_HEIGHT).toString().split('.')[0]) +
-                Number(this.state.gestIdx))
-            : (newIdx =
-                Number(this.state.gestIdx) -
-                Number((-draggingDist / ROW_HEIGHT).toString().split('.')[0]));
-          const newItems = [];
-          items.map(item => newItems.push(item));
-          newItems.splice(this.state.gestIdx, 1);
-          newItems.splice(newIdx, 0, items[this.state.gestIdx]);
-          this.setState({items: newItems});
-        }
+        draggingDist > 0
+          ? (newIdx =
+              Number((draggingDist / ROW_HEIGHT).toString().split('.')[0]) +
+              Number(this.state.gestIdx))
+          : (newIdx =
+              Number(this.state.gestIdx) -
+              Number((-draggingDist / ROW_HEIGHT).toString().split('.')[0]));
+        const newItems = [];
+        items.map(item => newItems.push(item));
+        newItems.splice(this.state.gestIdx, 1);
+        newItems.splice(newIdx, 0, items[this.state.gestIdx]);
         this.setState({
+          items: newItems,
           listener: false,
           listenerIdx: -1,
           draggingDist: null,
